@@ -7,7 +7,9 @@ yarn dev
 ```
 
 ## hosting
-coming soon...
+https://how-long-h-h-suspned.vercel.app/
+
+By [Vercel](https://vercel.com/dashboard)
 
 ## misc
 nextjsの素振りリポジトリ(単ページだけど...)
