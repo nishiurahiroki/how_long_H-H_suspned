@@ -40,6 +40,7 @@ export default function Home() {
         <div>
           {time}
         </div>
+        <div>経過</div>
       </main>
 
       <footer className={styles.footer}>
