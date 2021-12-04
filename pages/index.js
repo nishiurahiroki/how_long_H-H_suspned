@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 
 import dateFormat from 'dateformat'
+import DateDiff from 'date-diff'
 
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
@@ -16,12 +17,15 @@ function getNowStr() {
 }
 
 export default function Home() {
-  const [time, setTime] = useState(getNowStr())
+  const [time, setTime] = useState('')
 
   useEffect(() => {
     const timer = setTimeout(function main(){
+      const suspended = new Date(2018, 11, 26)
+      const now = new Date()
+      const diff = new DateDiff(now, suspended)
       timer = setTimeout(main, interval)
-      setTime(getNowStr())
+      setTime(diff.seconds())
     }, interval)
     return () => clearTimeout(timer)
   }, [])
@@ -38,7 +42,7 @@ export default function Home() {
           Hunter×Hunter 休載から
         </div>
         <div>
-          {time}
+          {time} 秒
         </div>
         <div>経過</div>
       </main>
