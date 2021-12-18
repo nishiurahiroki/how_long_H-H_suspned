@@ -11,7 +11,7 @@ const interval = 1000
 
 
 export default function Home({ now }) {
-  const nowSeconds = useRef(new Date().getTime())
+  const nowSeconds = useRef(new Date(now).getTime())
 
   const [day, setDay] = useState('')
   const [hour, setHour] = useState('')
