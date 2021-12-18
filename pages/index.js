@@ -41,7 +41,7 @@ export default function Home({ now }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Hello</title>
+        <title>How long Hunter×Hunter suspended</title>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
       </Head>
 
