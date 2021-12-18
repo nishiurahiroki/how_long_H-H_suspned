@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useRef} from 'react'
 
 import DateDiff from 'date-diff'
 
@@ -7,29 +7,33 @@ import styles from '../styles/Home.module.css'
 
 import {fetchNow} from '../utils/DateUtils'
 
-const interval = 1000 - Date.now() % 1000
+const interval = 1000
 
 
 export default function Home({ now }) {
+  const nowSeconds = useRef(new Date().getTime())
+
   const [day, setDay] = useState('')
   const [hour, setHour] = useState('')
   const [minute, setMinute] = useState('')
 
   useEffect(() => {
-    const timer = setTimeout(function main(){
+    const timer = setTimeout(function main() {
       const suspended = new Date(2018, 11, 26)
-      const diff = new DateDiff(new Date(now), suspended)
+      const diff = new DateDiff(new Date(nowSeconds.current), suspended)
       timer = setTimeout(main, interval)
-
+  
       const day = diff.seconds() / 86400
       const surplusDay = diff.seconds() % 86400
       const hour = surplusDay / 3600
       const surplusHour = surplusDay % 3600
       const minute = surplusHour / 60
-
+  
       setMinute(Math.floor(minute))
       setHour(Math.floor(hour))
       setDay(Math.floor(day - 1))
+
+      nowSeconds.current = nowSeconds.current + interval
     }, interval)
     return () => clearTimeout(timer)
   }, [])
