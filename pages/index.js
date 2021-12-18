@@ -15,8 +15,6 @@ export default function Home({ now }) {
   const [hour, setHour] = useState('')
   const [minute, setMinute] = useState('')
 
-  console.log(now)
-
   useEffect(() => {
     const timer = setTimeout(function main(){
       const suspended = new Date(2018, 11, 26)
