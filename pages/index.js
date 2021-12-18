@@ -64,7 +64,7 @@ export default function Home({ now }) {
 
 export async function getServerSideProps() {
   const now = await fetchNow()
-  console.log('hogehoge : ' + now)
+
   return {
     props : { now }
   }
