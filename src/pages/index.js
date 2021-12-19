@@ -34,6 +34,17 @@ export default function Home({ now }) {
       nowSeconds.current = nowSeconds.current + INTERVAL
       timer = setTimeout(main, INTERVAL)
     }, INTERVAL)
+
+    if (typeof window === 'object') { // スマホのロックからの復帰や、タブ遷移した際に時間が止まる件の対策
+      document.addEventListener('visibilitychange', () => {
+        (async () => {
+          if (document.visibilityState === 'visible') {
+            const now = await fetchNow()
+            nowSeconds.current = new Date(now).getTime()
+          }
+        })()
+      })
+    }
     return () => clearTimeout(timer)
   }, [])
 
