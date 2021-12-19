@@ -7,8 +7,8 @@ import styles from '../styles/Home.module.css'
 
 import {fetchNow} from '../utils/DateUtils'
 
-const interval = 1000
-
+const INTERVAL = 1000
+const SUSPENDED_DAY = new Date(2018, 11, 26)
 
 export default function Home({ now }) {
   const nowSeconds = useRef(new Date(now).getTime())
@@ -18,10 +18,8 @@ export default function Home({ now }) {
   const [minute, setMinute] = useState('')
 
   useEffect(() => {
-    const timer = setTimeout(function main() {
-      const suspended = new Date(2018, 11, 26)
-      const diff = new DateDiff(new Date(nowSeconds.current), suspended)
-      timer = setTimeout(main, interval)
+    let timer = setTimeout(function main() {
+      const diff = new DateDiff(new Date(nowSeconds.current), SUSPENDED_DAY)
   
       const day = diff.seconds() / 86400
       const surplusDay = diff.seconds() % 86400
@@ -33,8 +31,9 @@ export default function Home({ now }) {
       setHour(Math.floor(hour))
       setDay(Math.floor(day - 1))
 
-      nowSeconds.current = nowSeconds.current + interval
-    }, interval)
+      nowSeconds.current = nowSeconds.current + INTERVAL
+      timer = setTimeout(main, INTERVAL)
+    }, INTERVAL)
     return () => clearTimeout(timer)
   }, [])
 
