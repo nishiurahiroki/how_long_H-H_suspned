@@ -35,12 +35,15 @@ export default function Home({ now }) {
       timer = setTimeout(main, INTERVAL)
     }, INTERVAL)
 
-    if (typeof window === 'object') { // スマホのロックからの復帰や、タブ遷移した際に時間が止まる件の対策
+    // スマホのロックからの復帰や、タブ遷移した際に時間が止まる件の対策
+    if (typeof window === 'object') { 
       document.addEventListener('visibilitychange', () => {
         (async () => {
           if (document.visibilityState === 'visible') {
-            const now = await fetchNow()
-            nowSeconds.current = new Date(now).getTime()
+            // ↓TODO API直呼びでDateUtilsと処理が散らばってしまっている
+            const response = await fetch('/api/now')
+            const json = await response.json()
+            nowSeconds.current = new Date(json.datetime).getTime()
           }
         })()
       })

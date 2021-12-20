@@ -1,0 +1,1 @@
+export const FETCH_NOW : string = 'http://worldtimeapi.org/api/timezone/Asia/Tokyo'
