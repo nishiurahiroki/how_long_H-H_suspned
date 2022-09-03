@@ -8,7 +8,7 @@ import {fetchNow} from '../utils/DateUtils'
 const INTERVAL = 1000
 const SUSPENDED_DAY = new Date(2018, 11, 26)
 
-export default function Home({ now }) {
+export default function Index({ now }) {
   const { day, hour, minute } = useSuspendClock({
     interval : INTERVAL,
     suspended : SUSPENDED_DAY,
