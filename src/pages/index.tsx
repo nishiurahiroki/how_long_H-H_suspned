@@ -1,13 +1,15 @@
 import { useSuspendClock } from '../hooks/useSuspendClock'
 
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/index.module.css'
 
 import {fetchNow} from '../utils/DateUtils'
 
+import Clock from '../components/Clock'
+
+
 const interval = 1000
 const suspended = new Date(2018, 11, 26)
-
 
 export default function Index({ now }) {
   const { day, hour, minute } = useSuspendClock({
@@ -27,14 +29,9 @@ export default function Index({ now }) {
         <div>
           Hunter×Hunter 休載から
         </div>
-        <div>
-          <span className={styles.date_text}>{day}</span>日
-          {' '}
-          <span className={styles.date_text}>{hour}</span>時間
-          {' '}
-          <span className={styles.date_text}>{minute}</span>分
-          <span className={styles.blink_text}>：</span>
-        </div>
+
+        <Clock day={day} hour={hour} minute={minute} />
+
         <div>経過</div>
       </main>
     </div>
@@ -44,7 +41,6 @@ export default function Index({ now }) {
 
 export async function getServerSideProps() {
   const now = await fetchNow()
-
   return {
     props : { now }
   }

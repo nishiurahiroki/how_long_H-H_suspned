@@ -1,0 +1,18 @@
+.blink_text {
+  animation: flash 2s linear infinite;
+  font-size : 2em
+}
+
+@keyframes flash {
+  0%,100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.date_text {
+  font-size : 3em
+}
