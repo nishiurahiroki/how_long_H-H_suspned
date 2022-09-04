@@ -5,13 +5,14 @@ import styles from '../styles/Home.module.css'
 
 import {fetchNow} from '../utils/DateUtils'
 
-const INTERVAL = 1000
-const SUSPENDED_DAY = new Date(2018, 11, 26)
+const interval = 1000
+const suspended = new Date(2018, 11, 26)
+
 
 export default function Index({ now }) {
   const { day, hour, minute } = useSuspendClock({
-    interval : INTERVAL,
-    suspended : SUSPENDED_DAY,
+    interval,
+    suspended,
     now
   })
 
