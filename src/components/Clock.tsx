@@ -9,7 +9,7 @@ export type ClockProps = {
   minute: number;
 }
 
-export default (props: ClockProps) => {
+export default (props: ClockProps) : JSX.Element => {
   const { day, hour, minute } = props
 
   return (
