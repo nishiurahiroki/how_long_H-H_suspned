@@ -1,4 +1,4 @@
-import { useSuspendClock } from '../hooks/useSuspendClock'
+import { useSuspendDate } from '../hooks/useSuspendDate'
 
 import Head from 'next/head'
 import styles from '../styles/index.module.css'
@@ -12,7 +12,7 @@ const interval = 1000
 const suspended = new Date(2018, 11, 26)
 
 export default function Index({ now }) {
-  const { day, hour, minute } = useSuspendClock({
+  const { day, hour, minute } = useSuspendDate({
     interval,
     suspended,
     now
@@ -30,7 +30,11 @@ export default function Index({ now }) {
           Hunter×Hunter 休載から
         </div>
 
-        <Clock day={day} hour={hour} minute={minute} />
+        <Clock 
+          day={day} 
+          hour={hour} 
+          minute={minute} 
+        />
 
         <div>経過</div>
       </main>

@@ -2,7 +2,7 @@ import {useRef, useState, useEffect} from 'react'
 
 import DateDiff from 'date-diff'
 
-export function useSuspendClock({
+export function useSuspendDate({
   interval, now, suspended
 }) {
   const nowSeconds = useRef(new Date(now).getTime())
