@@ -4,17 +4,18 @@ import Head from 'next/head'
 import styles from '../styles/index.module.css'
 
 import {fetchNow} from '../utils/DateUtils'
+import { gql } from "@apollo/client";
+import apolloClient from '../gql/client'
 
 import Clock from '../components/Clock'
 
 
 const interval = 1000
-const suspended = new Date(2018, 11, 26)
 
-export default function Index({ now }) {
+export default function Index({ now, lastSerial }) {
   const { day, hour, minute } = useSuspendDate({
     interval,
-    suspended,
+    lastSerial : new Date(lastSerial.year, lastSerial.month, lastSerial.day),
     now
   })
 
@@ -44,8 +45,22 @@ export default function Index({ now }) {
 
 
 export async function getServerSideProps() {
+  const { data } = await apolloClient.query({
+    query: gql`
+      query { 
+        lastSerial {
+          date {
+            year
+            month
+            day
+          }
+        }
+      }
+    `,
+  });
+
   const now = await fetchNow()
   return {
-    props : { now }
+    props : { now, lastSerial : data.lastSerial.date }
   }
 }

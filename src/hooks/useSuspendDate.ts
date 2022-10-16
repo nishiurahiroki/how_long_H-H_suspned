@@ -3,7 +3,7 @@ import {useRef, useState, useEffect} from 'react'
 import DateDiff from 'date-diff'
 
 export function useSuspendDate({
-  interval, now, suspended
+  interval, now, lastSerial
 }) {
   const nowSeconds = useRef(new Date(now).getTime())
 
@@ -13,7 +13,7 @@ export function useSuspendDate({
 
   useEffect(() => {
     let timer = setTimeout(function main() {
-      const diff = new DateDiff(new Date(nowSeconds.current), suspended)
+      const diff = new DateDiff(new Date(nowSeconds.current), lastSerial)
 
       const day = diff.seconds() / 86400
       const surplusDay = diff.seconds() % 86400
@@ -42,7 +42,7 @@ export function useSuspendDate({
       })
     }
     return () => clearTimeout(timer)
-  }, [interval, suspended])
+  }, [interval, lastSerial])
 
   return { day, hour, minute }
 }
