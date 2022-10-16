@@ -42,7 +42,7 @@ export function useSuspendDate({
       })
     }
     return () => clearTimeout(timer)
-  }, [])
+  }, [interval, suspended])
 
   return { day, hour, minute }
 }
