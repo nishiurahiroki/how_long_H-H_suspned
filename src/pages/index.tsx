@@ -44,7 +44,12 @@ export default function Index({ now, lastSerial }) {
 }
 
 
-export async function getServerSideProps() {
+export async function getServerSideProps({res}) {
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
+)
+
   const { data } = await apolloClient.query({
     query: gql`
       query { 
