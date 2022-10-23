@@ -1,43 +1,15 @@
-import { Suspense } from 'react'
-import { useQuery } from 'urql'
-import { useClock } from '../hooks/useClock'
+import { Suspense, lazy } from 'react'
 
 import Head from 'next/head'
 import styles from '../styles/index.module.css'
 
-import {fetchNow} from '../utils/DateUtils'
+import { fetchNow } from '../utils/DateUtils'
 
-import Clock from '../components/Clock'
+import Loading from '../components/Loading'
+const Clock = lazy(() => import('../components/Clock'));
 
-const SuspendedQuery = `
-  query {
-    lastSerial {
-      date {
-        year
-        month
-        day
-      }
-    }
-  }
-`
-
-
-const interval = 1000
 
 export default function Index({ now }) {
-  const [result] = useQuery({
-    query : SuspendedQuery
-  })
-
-  console.log(result)
-  const { data, fetching } = result
-
-  const { day, hour, minute } = useClock({
-    interval,
-    lastSerial : data ? new Date(data?.lastSerial.date.year, data?.lastSerial.date.month, data?.lastSerial.date.day) : null,
-    now
-  })
-
   return (
     <div className={styles.container}>
       <Head>
@@ -50,11 +22,11 @@ export default function Index({ now }) {
           Hunter×Hunter 休載から
         </div>
 
-        <Clock 
-          day={day} 
-          hour={hour} 
-          minute={minute} 
-        />
+        <Suspense fallback={<Loading/>}>
+          <Clock
+            now={now}
+          />
+        </Suspense>
 
         <div>経過</div>
       </main>

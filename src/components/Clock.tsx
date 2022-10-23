@@ -1,16 +1,45 @@
 import React from 'react'
 
+import { useQuery } from 'urql'
+
+import { useClock } from '../hooks/useClock'
+
 import styles from '../styles/Clock.module.css'
 
+const SuspendedQuery = `
+  query {
+    lastSerial {
+      date {
+        year
+        month
+        day
+      }
+    }
+  }
+`
+
+const interval = 1000
 
 export type ClockProps = {
-  day: number;
-  hour: number;
-  minute: number;
+  now: string;
 }
 
 export default (props: ClockProps) : JSX.Element => {
-  const { day, hour, minute } = props
+  const [result] = useQuery({
+    query : SuspendedQuery
+  })
+
+  const { data } = result
+
+  const { day, hour, minute } = useClock({
+    interval,
+    lastSerial : new Date(
+      data.lastSerial.date.year, 
+      data.lastSerial.date.month, 
+      data.lastSerial.date.day
+    ),
+    now : props.now
+  })
 
   return (
     <div>

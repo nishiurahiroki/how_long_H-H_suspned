@@ -12,8 +12,6 @@ export function useClock({
   const [minute, setMinute] = useState(0)
 
   useEffect(() => {
-    if(!lastSerial) return
-
     let timer = setTimeout(function main() {
       const diff = new DateDiff(new Date(nowSeconds.current), lastSerial)
 
@@ -45,10 +43,6 @@ export function useClock({
     }
     return () => clearTimeout(timer)
   }, [interval, lastSerial])
-
-  if(!lastSerial) {
-    return { day : 0, hour : 0, minute : 0 }
-  }
 
   return { day, hour, minute }
 }
