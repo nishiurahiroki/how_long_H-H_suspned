@@ -1,21 +1,40 @@
-import { useSuspendDate } from '../hooks/useSuspendDate'
+import { Suspense } from 'react'
+import { useQuery } from 'urql'
+import { useClock } from '../hooks/useClock'
 
 import Head from 'next/head'
 import styles from '../styles/index.module.css'
 
 import {fetchNow} from '../utils/DateUtils'
-import { gql } from "@apollo/client";
-import apolloClient from '../gql/client'
 
 import Clock from '../components/Clock'
+
+const SuspendedQuery = `
+  query {
+    lastSerial {
+      date {
+        year
+        month
+        day
+      }
+    }
+  }
+`
 
 
 const interval = 1000
 
-export default function Index({ now, lastSerial }) {
-  const { day, hour, minute } = useSuspendDate({
+export default function Index({ now }) {
+  const [result] = useQuery({
+    query : SuspendedQuery
+  })
+
+  console.log(result)
+  const { data, fetching } = result
+
+  const { day, hour, minute } = useClock({
     interval,
-    lastSerial : new Date(lastSerial.year, lastSerial.month, lastSerial.day),
+    lastSerial : data ? new Date(data?.lastSerial.date.year, data?.lastSerial.date.month, data?.lastSerial.date.day) : null,
     now
   })
 
@@ -45,27 +64,8 @@ export default function Index({ now, lastSerial }) {
 
 
 export async function getServerSideProps({res}) {
-  res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=10, stale-while-revalidate=59'
-  )
-
-  const { data } = await apolloClient.query({
-    query: gql`
-      query { 
-        lastSerial {
-          date {
-            year
-            month
-            day
-          }
-        }
-      }
-    `,
-  });
-
   const now = await fetchNow()
   return {
-    props : { now, lastSerial : data.lastSerial.date }
+    props : { now }
   }
 }

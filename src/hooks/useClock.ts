@@ -2,7 +2,7 @@ import {useRef, useState, useEffect} from 'react'
 
 import DateDiff from 'date-diff'
 
-export function useSuspendDate({
+export function useClock({
   interval, now, lastSerial
 }) {
   const nowSeconds = useRef(new Date(now).getTime())
@@ -12,6 +12,8 @@ export function useSuspendDate({
   const [minute, setMinute] = useState(0)
 
   useEffect(() => {
+    if(!lastSerial) return
+
     let timer = setTimeout(function main() {
       const diff = new DateDiff(new Date(nowSeconds.current), lastSerial)
 
@@ -43,6 +45,10 @@ export function useSuspendDate({
     }
     return () => clearTimeout(timer)
   }, [interval, lastSerial])
+
+  if(!lastSerial) {
+    return { day : 0, hour : 0, minute : 0 }
+  }
 
   return { day, hour, minute }
 }

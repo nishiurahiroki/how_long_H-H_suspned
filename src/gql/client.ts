@@ -1,12 +1,8 @@
 
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { createClient } from 'urql';
 
-import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-dotenv.config()
-
-const client = new ApolloClient({
-    uri: process.env.BACKEND_HOST,
-    cache: new InMemoryCache(),
+const client = createClient({
+  url: process.env.NEXT_PUBLIC_BACKEND_HOST
 });
 
 export default client;
