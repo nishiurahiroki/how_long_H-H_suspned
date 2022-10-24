@@ -24,8 +24,18 @@ export type ClockProps = {
   now: string;
 }
 
+export type SuspendedDate = {
+  lastSerial : {
+    date : {
+      year  : number;
+      month : number;
+      day   : number;
+    }
+  }
+}
+
 export default (props: ClockProps) : JSX.Element => {
-  const [result] = useQuery({
+  const [result] = useQuery<SuspendedDate>({
     query : SuspendedQuery
   })
 
