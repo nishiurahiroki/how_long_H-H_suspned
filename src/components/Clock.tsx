@@ -8,7 +8,7 @@ import styles from '../styles/Clock.module.css'
 
 const SuspendedQuery = `
   query {
-    lastSerial {
+    suspended {
       date {
         year
         month
@@ -25,7 +25,7 @@ export type ClockProps = {
 }
 
 export type SuspendedDate = {
-  lastSerial : {
+  suspended : {
     date : {
       year  : number;
       month : number;
@@ -35,7 +35,7 @@ export type SuspendedDate = {
 }
 
 export default (props: ClockProps) : JSX.Element => {
-  const [result] = useQuery<SuspendedDate>({
+  const [result] = useQuery<SuspendedDate | null>({
     query : SuspendedQuery
   })
 
@@ -43,10 +43,10 @@ export default (props: ClockProps) : JSX.Element => {
 
   const { day, hour, minute } = useClock({
     interval,
-    lastSerial : new Date(
-      data.lastSerial.date.year, 
-      data.lastSerial.date.month, 
-      data.lastSerial.date.day
+    suspended : new Date(
+      data.suspended.date.year, 
+      data.suspended.date.month, 
+      data.suspended.date.day
     ),
     now : props.now
   })

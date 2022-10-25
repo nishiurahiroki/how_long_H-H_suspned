@@ -3,7 +3,7 @@ import {useRef, useState, useEffect} from 'react'
 import DateDiff from 'date-diff'
 
 export function useClock({
-  interval, now, lastSerial
+  interval, now, suspended
 }) {
   const nowSeconds = useRef(new Date(now).getTime())
 
@@ -13,7 +13,7 @@ export function useClock({
 
   useEffect(() => {
     let timer = setTimeout(function main() {
-      const diff = new DateDiff(new Date(nowSeconds.current), lastSerial)
+      const diff = new DateDiff(new Date(nowSeconds.current), suspended)
 
       const day = diff.seconds() / 86400
       const surplusDay = diff.seconds() % 86400
@@ -42,7 +42,7 @@ export function useClock({
       })
     }
     return () => clearTimeout(timer)
-  }, [interval, lastSerial])
+  }, [interval, suspended])
 
   return { day, hour, minute }
 }
