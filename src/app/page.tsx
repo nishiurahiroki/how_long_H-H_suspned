@@ -1,15 +1,21 @@
-import { Suspense, lazy } from 'react'
+import { use } from 'react'
 
 import Head from 'next/head'
 import styles from '../styles/index.module.css'
 
 import { fetchNow } from '../utils/DateUtils'
 
-import Loading from '../components/Loading'
-const Clock = lazy(() => import('../components/Clock'));
+import Clock from '../components/Clock'
 
 
-export default function Index({ now }) {
+async function getNow() {
+  const now = await fetchNow()
+  return now  
+}
+
+export default function Index() {
+  const now = use(getNow())
+  
   return (
     <div className={styles.container}>
       <Head>
@@ -22,22 +28,12 @@ export default function Index({ now }) {
           Hunter×Hunter 休載から
         </div>
 
-        <Suspense fallback={<Loading/>}>
-          <Clock
-            now={now}
-          />
-        </Suspense>
+        <Clock
+          now={now}
+        />
 
         <div>経過</div>
       </main>
     </div>
   )
-}
-
-
-export async function getServerSideProps({res}) {
-  const now = await fetchNow()
-  return {
-    props : { now }
-  }
 }
