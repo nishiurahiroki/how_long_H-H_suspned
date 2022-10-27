@@ -6,7 +6,7 @@ import DateDiff from 'date-diff'
 
 export function useClock({
   interval, now, suspended
-}) {
+} : any) {
   const nowSeconds = useRef(new Date(now).getTime())
 
   const [day, setDay] = useState(0)
