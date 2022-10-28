@@ -1,7 +1,5 @@
 import { use } from 'react'
 
-import styles from './page.module.css'
-
 import SuspendedRepository from '../repositories/SuspendedRepository'
 import { fetchNow } from '../utils/DateUtils'
 
@@ -12,8 +10,8 @@ export default function Index() {
   const suspended = use(SuspendedRepository.get())
 
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
+    <div className="container">
+      <main className="main">
         <div>
           Hunter×Hunter 休載から
         </div>

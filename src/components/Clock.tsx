@@ -4,8 +4,6 @@ import React from 'react'
 
 import { useClock } from '../hooks/useClock'
 
-import styles from './Clock.module.css'
-
 
 const interval = 1000
 
@@ -41,12 +39,12 @@ export default (props: ClockProps) : JSX.Element => {
 
   return (
     <div>
-      <span className={styles.date_text}>{day}</span>日
+      <span className="date_text">{day}</span>日
       {' '}
-      <span className={styles.date_text}>{hour}</span>時間
+      <span className="date_text">{hour}</span>時間
       {' '}
-      <span className={styles.date_text}>{minute}</span>分
-      <span className={styles.blink_text}>：</span>
+      <span className="date_text">{minute}</span>分
+      <span className="blink_text">：</span>
     </div>
   )
 }
