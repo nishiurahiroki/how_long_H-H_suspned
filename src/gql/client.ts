@@ -1,9 +1,9 @@
 
-import { createClient } from 'urql';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
-const client = createClient({
-  url: process.env.NEXT_PUBLIC_BACKEND_HOST,
-  suspense: true
+const client = new ApolloClient({
+  uri: process.env.NEXT_PUBLIC_BACKEND_HOST,
+  cache: new InMemoryCache(),
 });
 
 export default client;
